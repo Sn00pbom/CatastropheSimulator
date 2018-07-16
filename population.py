@@ -4,8 +4,8 @@ import copy
 
 class Being(object):
 
-    def __init__(self):
-        self.stat = [10.,10.,0.,0.,0.,0.,0.]
+    def __init__(self, stat = [10.,10.,0.,0.,0.,0.,0.]):
+        self.stat = stat
         self.age = 0
         self.hp = 1000
         self.nudge_all()
@@ -13,7 +13,7 @@ class Being(object):
 
     def wither(self):
         self.age += 25
-        if self.age >= 75:
+        if self.age >= 100:
             amount = random.random() * 35
             self.hp -= amount
 
@@ -29,9 +29,7 @@ class Being(object):
 
     def offspring(self):
         self.can_reproduce = False
-        baby = copy.deepcopy(self)
-        baby.can_reproduce = True
-        baby.hp = 1000
+        baby = Being(copy.deepcopy(self.stat))
         return baby
 
 
