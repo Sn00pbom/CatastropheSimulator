@@ -6,23 +6,31 @@ class Being(object):
 
     def __init__(self):
         self.stat = [10.,10.,0.,0.,0.,0.,0.]
+        self.age = 0
         self.hp = 1000
         self.nudge_all()
+        self.can_reproduce = True
 
     def wither(self):
-        amount = random.random() * 35
-        self.hp -= amount
+        self.age += 25
+        if self.age >= 75:
+            amount = random.random() * 35
+            self.hp -= amount
+
+
 
     def nudge_all(self):
         for i in range(len(self.stat)):
             direction = 1
-            if random.randrange(0, 4) == 0: direction *= -1
-            amount = random.random() * random.randrange(1, 10) * direction
+            if random.randrange(0, 2) == 0: direction *= -1
+            amount = random.random() * random.randrange(1, 5) * direction
             self.stat[i] += amount
 
 
     def offspring(self):
+        self.can_reproduce = False
         baby = copy.deepcopy(self)
+        baby.can_reproduce = True
         baby.hp = 1000
         return baby
 
@@ -48,9 +56,11 @@ class Population(object):
         for being in self.pop:
             virgin = random.randrange(0,100)
             if virgin <= 85:
-                offspring = being.offspring()
-                offspring.nudge_all()
-                babies.append(offspring)
+                if being.can_reproduce:
+                    offspring = being.offspring()
+                    offspring.nudge_all()
+                    babies.append(offspring)
+
         for baby in babies: self.pop.append(baby)
 
     def catastrophe(self,dtype,amount):

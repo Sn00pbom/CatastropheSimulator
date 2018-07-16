@@ -20,9 +20,9 @@ while True:
     wait_key()
     popnum += 1
     print '~~~~~~~~~~~~~~~POPULATION ' + str(popnum) + '~~~~~~~~~~~~~~~'
-    pop = population.Population(2)
+    pop = population.Population(10000)
     pop.info()
-    pop.shout()
+    # pop.shout()
     while len(pop.pop) != 0 and len(pop.pop) <= 150000:
         if is_catastrophe(25):
             dtype = random.randrange(0, 7)
